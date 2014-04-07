@@ -7,9 +7,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.IO;
+using System.Collections;
 
 namespace WindowsFormsApplication4 {
     public partial class POSForm : Form {
+        private StringReader myReader;
         private DBAdaptor db;
         private List<DataTypes.Good> currentOrder;
         private int currentSale = 0;
@@ -17,6 +20,7 @@ namespace WindowsFormsApplication4 {
         private int currentOffset = 0;
         private int currentBevOffset = 0;
         public POSForm() {
+
             InitializeComponent();
             button4.Enabled = false;
             button4.Visible = false;
@@ -39,12 +43,14 @@ namespace WindowsFormsApplication4 {
         public void addGoodButton(int id, string imageURL, string name) {
             ButtonWithId btn = new ButtonWithId();
             if (imageURL == "") imageURL = @"C:\Users\Tiasa Mondol\Pictures\Capture.JPG";
-            //btn.Image = Image.FromFile(imageURL);
-            btn.ImageAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            btn.Image = Image.FromFile(imageURL);
+           
+            btn.ImageAlign = System.Drawing.ContentAlignment.BottomCenter;
             btn.Width = 120;
             btn.Height = 120;
             btn.ItemId = id;
             btn.Text=name;
+            btn.TextAlign=System.Drawing.ContentAlignment.TopCenter;
             btn.Click += (sender, evnt) => { itemClickCallback(((ButtonWithId)sender).ItemId); };
 
             // Doesn't go off screen now
@@ -220,10 +226,44 @@ namespace WindowsFormsApplication4 {
             drawGoods();
         }
 
-        private void recieptListBox_SelectedIndexChanged(object sender, EventArgs e)
-        {
+       protected void printDocument1_PrintPage(object sender,System.Drawing.Printing.PrintPageEventArgs ev)
+  {
+      float linesPerPage = 0;
+      float yPosition = 0;
+      int count = 0;
+      float leftMargin = ev.MarginBounds.Left;
+      float topMargin = ev.MarginBounds.Top;
+      string line = null;
+     Font printFont = this.recieptListBox.Font;
+     SolidBrush myBrush = new SolidBrush(Color.Black);
+ 
+     // Work out the number of lines per page, using the MarginBounds.
+      linesPerPage =
+         ev.MarginBounds.Height / printFont.GetHeight(ev.Graphics);
 
-        }
+     // Iterate over the string using the StringReader, printing each line.
+      while (count < linesPerPage && ((line = myReader.ReadLine()) != null))
+     {
+         // calculate the next line position based on
+         // the height of the font according to the printing device
+          yPosition = topMargin + (count * printFont.GetHeight(ev.Graphics));
+ 
+         // draw the next line in the rich edit control
+  
+         ev.Graphics.DrawString(line, printFont,
+                                myBrush, leftMargin,
+                                yPosition, new StringFormat());
+         count++;
+     }
+ 
+     // If there are more lines, print another page.
+     if (line != null)
+         ev.HasMorePages = true;
+     else
+         ev.HasMorePages = false;
+ 
+     myBrush.Dispose();
+ }
 
         
         
@@ -231,9 +271,7 @@ namespace WindowsFormsApplication4 {
         
 
         
-        
-
-        
+         
 
     }
 }

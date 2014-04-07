@@ -72,7 +72,7 @@ namespace WindowsFormsApplication4
             return list;
         }
 
-        public List<DataTypes.Good> getAllItems()
+        /*public List<DataTypes.Good> getAllItems()
         {
             List<DataTypes.Good> list = new List<DataTypes.Good>();
             OleDbCommand cmd = new OleDbCommand("SELECT * FROM Items", connection);
@@ -87,7 +87,7 @@ namespace WindowsFormsApplication4
                 list.Add(goodey);
             }
             return list;
-        }
+        } */
 
         public List<DataTypes.Sale> getSales(int skip = 0, int count = 0)
         {
@@ -147,7 +147,7 @@ namespace WindowsFormsApplication4
              {
                  DataTypes.Good goodey = new DataTypes.Good();
                 goodey.id = Convert.ToInt32(reader["ID"].ToString());
-                //goodey.imageURL = reader["ImageURL"].ToString();
+                goodey.imageURL = reader["ImageURL"].ToString();
                 goodey.name = reader["ProductName"].ToString();
                 goodey.price = Convert.ToDouble(reader["Price"].ToString());
                 list.Add(goodey);

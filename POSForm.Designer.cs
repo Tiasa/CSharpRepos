@@ -39,6 +39,7 @@
             // 
             // recieptListBox
             // 
+            this.recieptListBox.BackColor = System.Drawing.SystemColors.Window;
             this.recieptListBox.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.recieptListBox.FormattingEnabled = true;
             this.recieptListBox.ItemHeight = 29;
@@ -47,7 +48,6 @@
             this.recieptListBox.Name = "recieptListBox";
             this.recieptListBox.Size = new System.Drawing.Size(277, 555);
             this.recieptListBox.TabIndex = 0;
-            this.recieptListBox.SelectedIndexChanged += new System.EventHandler(this.recieptListBox_SelectedIndexChanged);
             // 
             // printButton
             // 
@@ -122,7 +122,7 @@
             // 
             // btnSale
             // 
-            this.btnSale.Font = new System.Drawing.Font("Microsoft Sans Serif", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnSale.Font = new System.Drawing.Font("Microsoft Tai Le", 18F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.btnSale.Location = new System.Drawing.Point(466, 575);
             this.btnSale.Margin = new System.Windows.Forms.Padding(2);
             this.btnSale.Name = "btnSale";
