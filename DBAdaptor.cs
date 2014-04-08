@@ -114,11 +114,6 @@ namespace WindowsFormsApplication4
         {
             List<DataTypes.Good> list = new List<DataTypes.Good>();
             string sqlString;
-           // if (skip != 0 || count != 0)
-             //   sqlString += @"WHERE ID BETWEEN " + (skip + 1) + " AND " + (skip + count) + " AND Type=" + "\'" + "Beverage" + "\'";
-            //else 
-            //sqlString += @"WHERE Type="+"\'"+"Beverage"+"\'";
-
             if (skip != 0) sqlString = @"SELECT TOP " + count + " * FROM Items WHERE ID NOT IN (SELECT TOP " + skip + " ID FROM Items WHERE Type=" + "\'" + "Beverage" + "\'" + ") AND Type=" + "\'" + "Beverage" + "\'";
             else sqlString = @"SELECT TOP " + count + " * FROM Items WHERE Type=" + "\'" + "Beverage" + "\'";
             OleDbCommand cmd = new OleDbCommand(sqlString, connection);
@@ -127,7 +122,7 @@ namespace WindowsFormsApplication4
             {
                 DataTypes.Good goodey = new DataTypes.Good();
                 goodey.id = Convert.ToInt32(reader["ID"].ToString());
-                //goodey.imageURL = reader["ImageURL"].ToString();
+                goodey.imageURL = reader["ImageURL"].ToString();
                 goodey.name = reader["ProductName"].ToString();
                 goodey.price = Convert.ToDouble(reader["Price"].ToString());
                 list.Add(goodey);
@@ -176,9 +171,46 @@ namespace WindowsFormsApplication4
             return ready;
         }
 
-        internal void saveOrder(List<DataTypes.Good> currentOrder, int saleValue)
+        internal void saveOrder(List<DataTypes.Good> currentOrder, int saleValue, int orderno)
         {
-            //throw new NotImplementedException();
+            /*throw new NotImplementedException();*/
+            double total = 0;
+            //connection.Close();
+            //connection = new OleDbConnection(@"Provider=Microsoft.ACE.OLEDB.12.0;" +
+            //@"Data Source= C:\Users\Tiasa Mondol\Dropbox\Project\AwesomePOSorder.accdb;Persist Security Info=False;");
+            OleDbCommand cmd = connection.CreateCommand();
+            //connection.Open();
+            foreach (DataTypes.Good thingy in currentOrder)
+            //foreach (DataTypes.Good thingy in currentOrder)
+            {
+                total += thingy.price;
+                cmd.CommandText = @"INSERT INTO OrderItems (OrderId, ProductId) VALUES ('" + orderno + "','" + thingy.id + "')";
+                
+                cmd.ExecuteNonQuery();
+
+            }
+
+            cmd.CommandText = @"INSERT INTO Orders (Total, Tax, SaleValue) VALUES ('" + total + "','" + (total*saleValue/100) + "','"+saleValue+"')";
+            cmd.ExecuteNonQuery();
+             
+            /* con = new OleDbConnection("Provider=Microsoft.ACE.OLEDB.12.0;Data Source=student.mdb; Persist Security Info=False;");
+            cmd = con.CreateCommand();
+            cmd.CommandType = CommandType.Text;
+            cmd.CommandText = "update student set lname = '" + textBox2.Text + "' , fname ='" + textBox3.Text + "' where id = '" + textBox1.Text + "';";
+            con.Open();
+            try
+            {
+                cmd.ExecuteNonQuery();
+                MessageBox.Show("Data Succesfully updated");
+            }
+            catch (Exception Ex)
+            {
+                MessageBox.Show("Cannot update "+Ex.Message);
+            }
+            con.Close();
+
+
+             */
         }
     }
 }

@@ -64,6 +64,11 @@
     </Compile>
     <Compile Include="DataTypes.cs" />
     <Compile Include="DBAdaptor.cs" />
+    <Compile Include="Resource1.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>Resource1.resx</DependentUpon>
+    </Compile>
     <Compile Include="SalesFormDialog.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -84,6 +89,10 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Resource1.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resource1.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
     <EmbeddedResource Include="SalesFormDialog.resx">
       <DependentUpon>SalesFormDialog.cs</DependentUpon>
     </EmbeddedResource>
